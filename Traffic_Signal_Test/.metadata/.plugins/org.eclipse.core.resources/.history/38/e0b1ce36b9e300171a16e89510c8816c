@@ -1,0 +1,112 @@
+package com;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class TrafficSignalApplication implements Runnable {
+	static Thread myThread;
+	public static void main(String[] args) {
+
+		myThread = new Thread(new TrafficSignalApplication());
+		myThread.run();
+	}	
+	
+	Thread t1 = new Thread(){
+         public void run(){
+        	Queue<Integer> nsCarQueue = new LinkedList<Integer>();
+        	System.out.println("0: N = 0; S = 0;");
+        	//loop for 20 seconds
+        	for(int i=1;i<=20;i++){
+        		try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+              	//iterate thru green light for 3 seconds
+	            for(int g = 1;g <= 3;g++)
+	            {
+	            	nsCarQueue.add(1);
+	            	if(g != 1 || i == 1)
+			        {
+            		if(!nsCarQueue.isEmpty())
+            			nsCarQueue.remove();
+			        }
+	                System.out.println(i + ": N = " + nsCarQueue.size() + "; S = " + nsCarQueue.size() + ";");
+	            	i++;
+	            }
+	            nsCarQueue.add(1);
+                System.out.println(i + ": N = " + nsCarQueue.size() + "; S = " + nsCarQueue.size() + ";");
+                i++;
+                // iterate thru red light
+	            for(int r = 1;r <= 3;r++)
+	            {
+	            	if(i<=20)
+	            	{
+	            		nsCarQueue.add(1);
+		                System.out.println(i + ": N = " + nsCarQueue.size() + "; S = " + nsCarQueue.size() + ";");
+		            	i++;
+	            	}
+	            }
+	            if(i<=20)
+            	{
+	            	nsCarQueue.add(1);
+	                System.out.println(i + ": N = " + nsCarQueue.size() + "; S = " + nsCarQueue.size() + ";");
+            	}
+        	}
+         }
+     };
+    Thread t2 = new Thread(){
+ 
+    	  public void run(){
+        	Queue<Integer> ewCarsQueue = new LinkedList<Integer>();
+        	System.out.print(" E = 0; W = 0");
+        	for(int i=1;i<=20;i++){
+        		for(int r = 1;r <= 3;r++)
+   	            {
+        			ewCarsQueue.add(1);
+	                System.out.println(i + ": E = " + ewCarsQueue.size() + "; W = " + ewCarsQueue.size());
+	            	i++;
+   	            }
+        		ewCarsQueue.add(1);
+                System.out.println(i + ": E = " + ewCarsQueue.size() + "; W = " + ewCarsQueue.size());
+	            i++;
+	            try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	            for(int g = 1;g <= 3;g++)
+	            {
+	            	if(i<=20)
+	            	{
+	            		ewCarsQueue.add(1);
+		            	if(g != 1)
+				        {
+	            		if(!ewCarsQueue.isEmpty())
+	            			ewCarsQueue.remove();
+				        }
+		                System.out.println(i + ": E = " + ewCarsQueue.size() + "; W = " + ewCarsQueue.size());
+		                i++;
+	            	}
+	            }
+	            if(i<=20)
+            	{
+	            	ewCarsQueue.add(1);
+	                System.out.println(i + ": E = " + ewCarsQueue.size() + "; W = " + ewCarsQueue.size());
+            	}
+        	}
+    	  }
+     };
+@Override
+public void run() {
+	// TODO Auto-generated method stub
+	 t1.start();
+     t2.start();
+}
+
+	
+
+		
+}
